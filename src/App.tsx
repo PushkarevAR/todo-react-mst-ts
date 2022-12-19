@@ -1,24 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Space, Typography } from "antd";
+import { useEffect } from "react";
+import Counter from "./components/Counter";
+import InputForm from "./components/InputForm";
+import TodoContainer from "./components/TodoContainer";
 
 function App() {
+
+  useEffect(() => {
+    console.log("render app");
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="App space-align-block">
+      <Space
+        direction="vertical"
+        align="center"
+        size={24}
+        style={{ display: "flex" }}
+      >
+        <Typography.Title level={2}>Todo App</Typography.Title>
+        <Counter />
+        <TodoContainer />
+        <InputForm />
+      </Space>
     </div>
   );
 }
