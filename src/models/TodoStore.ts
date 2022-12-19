@@ -24,7 +24,7 @@ export const TodoStore = types
   }))
   .actions((self) => ({
     addTodo(title: string) {
-      const id = self.todos[self.todos.length - 1].id;
+      const id = self.todos[self.todos.length - 1].id + 1;
       self.todos.push({ id, userId: 0, title, completed: false });
     },
     deleteTodo(id: number) {

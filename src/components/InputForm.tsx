@@ -1,21 +1,28 @@
 import { Button, Form, Input } from "antd";
+import { StoreContext } from "../index";
+import { useContext } from "react";
 
 const InputForm = () => {
-  const onFinish = (values: any) => {
-    console.log("Success:", values);
+  const store = useContext(StoreContext);
+  const [ form ] = Form.useForm();
+
+  const onSubmit = (values: { title: string }) => {
+    store.addTodo(values.title);
+    form.resetFields();
   };
 
-  const onFinishFailed = (errorInfo: any) => {
+  const onSubmitFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
   };
 
   return (
     <Form
+      form={form}
       labelCol={{ span: 8 }}
-      wrapperCol={{ span: 24 }}
+      // wrapperCol={{ span: 36 }}
       initialValues={{ remember: true }}
-      onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
+      onFinish={onSubmit}
+      onFinishFailed={onSubmitFailed}
       autoComplete="off"
     >
       <Form.Item
@@ -23,9 +30,6 @@ const InputForm = () => {
         name="title"
         rules={[{ required: true, message: "Please input task title!" }]}
       >
-        <Input />
-      </Form.Item>
-      <Form.Item label="Description" name="description">
         <Input />
       </Form.Item>
 
