@@ -12,6 +12,8 @@ interface ITodo extends Instance<typeof Todo> {}
 const TodoContainer = observer(() => {
   const store = useContext(StoreContext);
 
+  // store.fetchTodo();
+
   const onToggle = (todo: ITodo) => {
     todo.toggle();
   };

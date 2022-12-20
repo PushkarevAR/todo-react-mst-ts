@@ -4,10 +4,11 @@ import Counter from "./components/Counter";
 import InputForm from "./components/InputForm";
 import TodoContainer from "./components/TodoContainer";
 
-function App() {
 
+
+function App() {
   useEffect(() => {
-    console.log("render app");
+    console.log("App render");
   }, []);
 
   return (
