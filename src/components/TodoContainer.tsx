@@ -1,18 +1,24 @@
 import { Space } from "antd";
 import { StoreContext } from "../index";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import { Typography, Card, Checkbox, Button, Popconfirm } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import { Todo } from "../models/TodoStore";
-import { Instance } from "mobx-state-tree";
+import { Instance, onSnapshot } from "mobx-state-tree";
 
 interface ITodo extends Instance<typeof Todo> {}
 
 const TodoContainer = observer(() => {
   const store = useContext(StoreContext);
 
-  // store.fetchTodo();
+  useEffect(() => {
+    store.fetchTodo();
+  }, [])
+
+  // onSnapshot(store, () => {
+  //   store.fetchTodo()
+  // });
 
   const onToggle = (todo: ITodo) => {
     todo.toggle();

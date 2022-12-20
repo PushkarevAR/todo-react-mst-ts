@@ -7,7 +7,7 @@ const InputForm = () => {
   const [ form ] = Form.useForm();
 
   const onSubmit = (values: { title: string }) => {
-    store.addTodo(values.title);
+    store.addTodo(values.title, false);
     form.resetFields();
   };
 
@@ -19,7 +19,6 @@ const InputForm = () => {
     <Form
       form={form}
       labelCol={{ span: 8 }}
-      // wrapperCol={{ span: 36 }}
       initialValues={{ remember: true }}
       onFinish={onSubmit}
       onFinishFailed={onSubmitFailed}

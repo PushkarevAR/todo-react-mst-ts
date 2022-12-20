@@ -9,15 +9,13 @@ export const Todo = types
     completed: types.boolean,
   })
   .actions(self => {
-    const toggle = () => {
-      self.completed = !self.completed;
-    };
+    const toggle = flow(function* toggle() {
+      // const resp = 
+    });
     return {
       toggle,
     }
   });
-
-interface ITodoSanapshotOut extends SnapshotOut<typeof Todo> {};
 
 export const TodoStore = types
   .model("TodoStore", {
@@ -29,45 +27,20 @@ export const TodoStore = types
     },
   }))
   .actions(self => {
-    // const fetchTodo = flow(function* fetchTodo() {
-    //   yield todoAPI.getTodo().then(data => console.log(data));
-    //   // yield todoAPI.getTodo().then((data: ITodoSanapshotOut[]) => self.todos.push(data[0]));
-    // });
-    const addTodo = (title: string) => {
-      const id = self.todos[self.todos.length - 1].id + 1;
-      self.todos.push({ id, userId: 0, title, completed: false });
-    };
-    const deleteTodo = (id: number) => {
-      self.todos.replace(self.todos.filter((t) => t.id !== id));
-    };
+    const fetchTodo = flow(function* fetchTodo() {
+      const resp = yield todoAPI.getTodo();      
+      self.todos.push(...resp);     
+    });
+    const addTodo = flow(function* addTodo(title, completed) {
+      const resp = yield todoAPI.postTodo(title, completed);
+      console.log(resp);
+    })
+    const deleteTodo = flow(function* deleteTodo(id: number) {
+      const resp = yield todoAPI.deleteTodo(id);
+    });
     return {
       addTodo,
       deleteTodo,
-      // fetchTodo,
+      fetchTodo,
     }
   });
-
-//   const fetchData = flow(function* fetchData() {
-//     yield doSomething()
-// })
-
-// actions(self => {
-//   // Don't forget that async operations HAVE
-//   // to use `flow( ... )`.
-//   const fetchData = flow(function* fetchData() {
-//       yield doSomething()
-//   })
-
-//   return {
-//       fetchData,
-//       afterCreate() {
-//           // Notice that we call the function directly
-//           // instead of using `self.fetchData()`. This is
-//           // because Typescript doesn't know yet about `fetchData()`
-//           // being part of `self` in this context.
-//           fetchData()
-//       }
-//   }
-// })
-
-

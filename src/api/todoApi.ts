@@ -1,32 +1,34 @@
 import axios from "axios";
-import { Todo } from "../models/TodoStore";
-import { SnapshotIn } from "mobx-state-tree";
-
-interface ITodoSanapshotIn extends SnapshotIn<typeof Todo> {};
 
 const getTodo = async () => {
   return await axios
-    .get("https://jsonplaceholder.typicode.com/posts")
-    .then((response) => response.data.slice(0, 10))
+    .get("https://jsonplaceholder.typicode.com/todos")
+    .then((response) => response.data.slice(196))
     .catch(() => []);
 };
 
-const patchTodo = async (todo: ITodoSanapshotIn) => {
+const patchTodo = async (id: number, completed: boolean) => {
   return await axios
-    .patch(`https://jsonplaceholder.typicode.com/todos/${todo.id}`, { completed: !todo.completed })
-    .then((response) => console.log(response));
+    .patch(`https://jsonplaceholder.typicode.com/todos/${id}`, { completed })
+    .then((response) => console.log(response))
+    .catch(() => [])
+    .finally(() => getTodo());
 }
 
 const deleteTodo = async (id: number) => {
   return await axios
     .delete(`https://jsonplaceholder.typicode.com/todos/${id}`)
-    .then((responce) => console.log(responce));
+    .then((responce) => console.log(responce))
+    .catch(() => [])
+    .finally(() => getTodo());
 }
 
-const postTodo = async (todo: ITodoSanapshotIn) => {
+const postTodo = async (title: string, completed: boolean) => {
   return await axios
-    .post(`https://jsonplaceholder.typicode.com/todos`, todo)
-    .then((responce) => console.log(responce));
+    .post(`https://jsonplaceholder.typicode.com/todos`, {title, completed, userId: 1})
+    .then((responce) => console.log(responce))
+    .catch(() => [])
+    .finally(() => getTodo());
 }
 
 const todoAPI = {

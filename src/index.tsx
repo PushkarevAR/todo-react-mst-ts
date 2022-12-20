@@ -8,27 +8,12 @@ const root = ReactDOM.createRoot(
 );
 
 const store = TodoStore.create({
-  todos: [
-    {
-      userId: 1,
-      id: 1,
-      title: "delectus aut autem",
-      completed: false,
-    },
-    {
-      userId: 1,
-      id: 2,
-      title: "quis ut nam facilis et officia qui",
-      completed: false,
-    },
-  ],
+  todos: [ ],
 });
 export const StoreContext = createContext(store);
 
 root.render(
-  <React.StrictMode>
     <StoreContext.Provider value={store}>
       <App />
     </StoreContext.Provider>
-  </React.StrictMode>
 );
