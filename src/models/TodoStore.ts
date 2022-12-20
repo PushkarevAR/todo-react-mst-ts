@@ -8,13 +8,14 @@ export const Todo = types
     title: types.string,
     completed: types.boolean,
   })
-  .actions(self => {
+  .actions((self) => {
     const toggle = flow(function* toggle() {
-      // const resp = 
+      const resp = yield todoAPI.patchTodo(self.id, !self.completed);
+      console.log("store toggle: ", resp);
     });
     return {
       toggle,
-    }
+    };
   });
 
 export const TodoStore = types
@@ -26,21 +27,22 @@ export const TodoStore = types
       return self.todos.filter((todo) => todo.completed).length;
     },
   }))
-  .actions(self => {
+  .actions((self) => {
     const fetchTodo = flow(function* fetchTodo() {
-      const resp = yield todoAPI.getTodo();      
-      self.todos.push(...resp);     
+      const resp = yield todoAPI.getTodo();
+      self.todos.push(...resp);
     });
     const addTodo = flow(function* addTodo(title, completed) {
       const resp = yield todoAPI.postTodo(title, completed);
-      console.log(resp);
-    })
-    const deleteTodo = flow(function* deleteTodo(id: number) {
+      console.log("store add: ", resp);
+    });
+    const deleteTodo = flow(function* deleteTodo(id) {
       const resp = yield todoAPI.deleteTodo(id);
+      console.log("store delete: ", resp);
     });
     return {
       addTodo,
       deleteTodo,
       fetchTodo,
-    }
+    };
   });
