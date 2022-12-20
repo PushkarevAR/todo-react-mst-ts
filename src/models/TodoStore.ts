@@ -1,4 +1,4 @@
-import { types, flow, SnapshotOut } from "mobx-state-tree";
+import { types, flow, destroy } from "mobx-state-tree";
 import todoAPI from "../api/todoApi";
 
 export const Todo = types
@@ -11,7 +11,7 @@ export const Todo = types
   .actions((self) => {
     const toggle = flow(function* toggle() {
       const resp = yield todoAPI.patchTodo(self.id, !self.completed);
-      console.log("store toggle: ", resp);
+      self.completed = resp.completed;
     });
     return {
       toggle,
@@ -34,11 +34,11 @@ export const TodoStore = types
     });
     const addTodo = flow(function* addTodo(title, completed) {
       const resp = yield todoAPI.postTodo(title, completed);
-      console.log("store add: ", resp);
+      self.todos.push(resp);
     });
-    const deleteTodo = flow(function* deleteTodo(id) {
-      const resp = yield todoAPI.deleteTodo(id);
-      console.log("store delete: ", resp);
+    const deleteTodo = flow(function* deleteTodo(todo) {
+      yield todoAPI.deleteTodo(todo.id);
+      destroy(todo);
     });
     return {
       addTodo,

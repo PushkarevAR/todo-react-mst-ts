@@ -1,5 +1,4 @@
 import { Space, Typography } from "antd";
-import { useEffect } from "react";
 import Counter from "./components/Counter";
 import InputForm from "./components/InputForm";
 import TodoContainer from "./components/TodoContainer";
@@ -7,10 +6,6 @@ import TodoContainer from "./components/TodoContainer";
 
 
 function App() {
-  useEffect(() => {
-    console.log("App render");
-  }, []);
-
   return (
     <div className="App space-align-block">
       <Space

@@ -10,16 +10,20 @@ const getTodo = async () => {
 const patchTodo = async (id: number, completed: boolean) => {
   return await axios
     .patch(`https://jsonplaceholder.typicode.com/todos/${id}`, { completed })
-    .then((response) => console.log("PATCH:", response))
-    .then(() => getTodo())
+    .then((response) => {
+      console.log("PATCH:", response);
+      return response.data;
+    })
     .catch((err) => console.log(err));
 };
 
 const deleteTodo = async (id: number) => {
   return await axios
     .delete(`https://jsonplaceholder.typicode.com/todos/${id}`)
-    .then((response) => console.log("DELETE:", response))
-    .then(() => getTodo())
+    .then((response) => {
+      console.log("DELETE:", response);
+      return response.data;
+    })
     .catch((err) => console.log(err));
 };
 
@@ -30,8 +34,10 @@ const postTodo = async (title: string, completed: boolean) => {
       completed,
       userId: 1,
     })
-    .then((response) => console.log("POST:", response))
-    .then(() => getTodo())
+    .then((response) => {
+      console.log("POST:", response);
+      return response.data;
+    })
     .catch((err) => console.log(err));
 };
 

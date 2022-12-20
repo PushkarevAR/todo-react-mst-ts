@@ -5,7 +5,7 @@ import { observer } from "mobx-react-lite";
 import { Typography, Card, Checkbox, Button, Popconfirm } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import { Todo } from "../models/TodoStore";
-import { Instance, onSnapshot } from "mobx-state-tree";
+import { Instance } from "mobx-state-tree";
 
 interface ITodo extends Instance<typeof Todo> {}
 
@@ -16,16 +16,12 @@ const TodoContainer = observer(() => {
     store.fetchTodo();
   }, [])
 
-  // onSnapshot(store, () => {
-  //   store.fetchTodo()
-  // });
-
   const onToggle = (todo: ITodo) => {
     todo.toggle();
   };
 
-  const onDelete = (id: number) => {
-    store.deleteTodo(id);
+  const onDelete = (todo: ITodo) => {
+    store.deleteTodo(todo);
   };
 
   return (
@@ -48,7 +44,7 @@ const TodoContainer = observer(() => {
               title="Are you sure delete this task?"
               okText="Yes"
               cancelText="No"
-              onConfirm={() => onDelete(todo.id)}
+              onConfirm={() => onDelete(todo)}
             >
               <Button type="primary" shape="circle" danger>
                 <DeleteOutlined />
